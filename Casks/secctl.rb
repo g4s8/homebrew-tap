@@ -3,7 +3,7 @@ cask "secctl" do
   name "secctl"
   desc "A small TUI tool to browse and edit Kubernetes secrets without YAML or base64"
   homepage "https://github.com/g4s8/secctl"
-  version "0.0.4"
+  version "0.0.5"
 
   livecheck do
     skip "Auto-generated on release."
@@ -14,22 +14,28 @@ cask "secctl" do
   on_macos do
     on_intel do
       url "https://github.com/g4s8/secctl/releases/download/v#{version}/secctl_#{version}_Darwin_x86_64.tar.gz"
-      sha256 "73336328d1b1903c09d794407f5ba04a31a5afaf23f2f1c2c506249002e56bba"
+      sha256 "072c70e033af4761f2372a58adab4be722bfef5443dac448f30391af6db0845a"
     end
     on_arm do
       url "https://github.com/g4s8/secctl/releases/download/v#{version}/secctl_#{version}_Darwin_arm64.tar.gz"
-      sha256 "d28b5126c4dc901e0b8cb1757339513ce3d8d42d1682822c5082ff31ffc76773"
+      sha256 "aa3226865009775f4ae5c849d1b0c8ac9d8796d871aa3564d3a62cc28755b64b"
     end
   end
 
   on_linux do
     on_intel do
       url "https://github.com/g4s8/secctl/releases/download/v#{version}/secctl_#{version}_Linux_x86_64.tar.gz"
-      sha256 "447b579402713b368424b05385465cdf6edf3726d531a74408ead74c3dd382d1"
+      sha256 "50ffd752384032cfb1f81ac20ad5c59a3d59353377e183cbbd5d9e96f5287814"
     end
     on_arm do
       url "https://github.com/g4s8/secctl/releases/download/v#{version}/secctl_#{version}_Linux_arm64.tar.gz"
-      sha256 "bd77bd7026226cf2ee30be48315ba483d391e4cb4d1204ed579216afffc1ac69"
+      sha256 "05592848263a816168243d12292a9d699668ed4d4434255915abdcc52cf62999"
+    end
+  end
+
+  postflight do
+    if OS.mac?
+      system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/secctl"]
     end
   end
 
